@@ -114,7 +114,29 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        s = Stack()
+        s.push([starting_vertex])
+        visited = set()  # keeps track of already visited nodes
+        while s.size() > 0:
+            path = s.pop()  # contains array of path searched
+            # print('path = ', path)
+            v = path[-1]  # get last node added to the search path
+            # print('v = ', v)
+            if v not in visited:  # if it has not already been searched
+                if v == destination_vertex:  # check to see if it is our search value
+                    return path  # if so, return the search path array
+                visited.add(v)  # else add the node to the visited nodes set
+                # for each of the node's neighbors
+                for next_vert in self.get_neighbors(v):
+                    new_path = list(path)  # record search path to this node
+                    # print('new_path = ', new_path)
+                    # add node's neighbor to new path array
+                    new_path.append(next_vert)
+                    # print('new_path after append = ', new_path)
+                    # load new path array into queue to be searched
+                    s.push(new_path)
+                    # print('************************************')
+        return None
 
     def dfs_recursive(self, starting_vertex):
         """
@@ -185,12 +207,12 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    # print(graph.dfs(1, 6))
+    print(graph.dfs(1, 6))
     # print(graph.dfs_recursive(1, 6))
