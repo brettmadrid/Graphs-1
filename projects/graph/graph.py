@@ -146,7 +146,23 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if visited is None:
+            visited = set()
+        if path is None:
+            path = []
+
+        visited.add(starting_vertex)  # add each noded visted
+        path = path + [starting_vertex]  # add each node visited to the path
+        if starting_vertex == destination_vertex:  # check node for destination_vertex
+            return path
+        for neighbor in self.get_neighbors(starting_vertex):
+            if neighbor not in visited:
+                # recusrse on each neighbor visited
+                new_path = self.dfs_recursive(
+                    neighbor, destination_vertex, visited, path)
+                if new_path:
+                    return new_path
+        return None
 
 
 if __name__ == '__main__':
@@ -214,5 +230,5 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
-    # print(graph.dfs_recursive(1, 6))
+    # print(graph.dfs(1, 6))
+    print(graph.dfs_recursive(1, 6))
