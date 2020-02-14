@@ -15,12 +15,14 @@ class Graph:
         """
         Add a vertex to the graph.
         """
+        # Using Adjaceny List to set up a new vertex
         self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
+        # first check to make sure both vertices exist before connecting them
         if v1 in self.vertices and v2 in self.vertices:
             self.vertices[v1].add(v2)
 
@@ -28,6 +30,7 @@ class Graph:
         """
         Get all neighbors (edges) of a vertex.
         """
+        # returns the Adjacency list value array for the key (vertex_id) passed in
         return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
@@ -35,7 +38,7 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        # look into using a deck
+        # look into using a python deck
         q = Queue()
         q.enqueue(starting_vertex)
         visited = set()
@@ -115,7 +118,7 @@ class Graph:
         depth-first order.
         """
         s = Stack()
-        s.push([starting_vertex])
+        s.push([starting_vertex]) # push starting vertex as an array item
         visited = set()  # keeps track of already visited nodes
         while s.size() > 0:
             path = s.pop()  # contains array of path searched
@@ -123,17 +126,19 @@ class Graph:
             v = path[-1]  # get last node added to the search path
             # print('v = ', v)
             if v not in visited:  # if it has not already been searched
-                if v == destination_vertex:  # check to see if it is our search value
+                if v == destination_vertex:  # check if it is our search value
                     return path  # if so, return the search path array
                 visited.add(v)  # else add the node to the visited nodes set
                 # for each of the node's neighbors
                 for next_vert in self.get_neighbors(v):
-                    new_path = list(path)  # record search path to this node
+                    # set up a new path by first copying the existing path
+                    # of how we got to this particular vertex
+                    new_path = list(path) 
                     # print('new_path = ', new_path)
-                    # add node's neighbor to new path array
+                    # add v's neighbors to new path array
                     new_path.append(next_vert)
                     # print('new_path after append = ', new_path)
-                    # load new path array into queue to be searched
+                    # load new path array into search queue to be searched
                     s.push(new_path)
                     # print('************************************')
         return None
