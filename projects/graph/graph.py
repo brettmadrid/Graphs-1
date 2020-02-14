@@ -30,7 +30,7 @@ class Graph:
         """
         Get all neighbors (edges) of a vertex.
         """
-        # returns the Adjacency list value array for the key (vertex_id) passed in
+        # returns the Adjacency list value array for the key (vertex_id) passed
         return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
@@ -96,7 +96,7 @@ class Graph:
             v = path[-1]  # get last node added to the search path
             # print('v = ', v)
             if v not in visited:  # if it has not already been searched
-                if v == destination_vertex:  # check to see if it is our search value
+                if v == destination_vertex:  # check if it is our search value
                     return path  # if so, return the search path array
                 visited.add(v)  # else add the node to the visited nodes set
                 # for each of the node's neighbors
@@ -157,9 +157,12 @@ class Graph:
         if path is None:
             path = []
 
-        visited.add(starting_vertex)  # add each noded visted
-        path = path + [starting_vertex]  # add each node visited to the path
-        if starting_vertex == destination_vertex:  # check node for destination_vertex
+        # add each noded visted
+        visited.add(starting_vertex)  
+        # add each node visited to the path
+        path = path + [starting_vertex]  
+        # check node for destination_vertex
+        if starting_vertex == destination_vertex:  
             return path
         for neighbor in self.get_neighbors(starting_vertex):
             if neighbor not in visited:
