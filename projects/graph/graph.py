@@ -151,6 +151,7 @@ class Graph:
 
         This should be done using recursion.
         """
+        # if first call to the method, setup visited set and path array
         if visited is None:
             visited = set()
         if path is None:
