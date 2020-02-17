@@ -39,14 +39,22 @@ class Graph:
         beginning from starting_vertex.
         """
         # look into using a python deck
+        # Create an empty queue
         q = Queue()
+        # engueue the the starting vertex
         q.enqueue(starting_vertex)
+        # create a set to store visited vertices
         visited = set()
+        # while the queue is not empty...
         while q.size() > 0:
+            # dequeue the first vertex in the queue
             v = q.dequeue()
+            # if vertex has not already been visited
             if v not in visited:
                 print(v)
+                # add to the visited vertices set
                 visited.add(v)
+                # get the neighbors of the vertex and add to the queue
                 for next_v in self.get_neighbors(v):
                     q.enqueue(next_v)
 
@@ -87,28 +95,34 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
+        # Create an empty queue
         q = Queue()
+        # engueue the PATH of the starting vertex (i.e. store in an array)
         q.enqueue([starting_vertex])
-        visited = set()  # keeps track of already visited nodes
+        # create a set to store the visited vertices
+        visited = set()  
+        # while the queue is not empty
         while q.size() > 0:
-            path = q.dequeue()  # contains array of path searched
-            # print('path = ', path)
-            v = path[-1]  # get last node added to the search path
-            # print('v = ', v)
-            if v not in visited:  # if it has not already been searched
-                if v == destination_vertex:  # check if it is our search value
-                    return path  # if so, return the search path array
-                visited.add(v)  # else add the node to the visited nodes set
-                # for each of the node's neighbors
+            # DEQUEUE the first PATH
+            path = q.dequeue()
+            # grab the last vertex from the PATH
+            v = path[-1]
+            # if that vertex has not been visited...
+            if v not in visited:
+                # check if it is the target
+                if v == destination_vertex:
+                    # if so, return the PATH
+                    return path
+                # mark it as visited
+                visited.add(v)
+                # then add a path to each neighbor to the end of the queue
                 for next_vert in self.get_neighbors(v):
-                    new_path = list(path)  # record search path to this node
-                    # print('new_path = ', new_path)
-                    # add node's neighbor to new path array
+                    # copy the path
+                    new_path = list(path)
+                    # append the neighbor to the end of the PATH
                     new_path.append(next_vert)
-                    # print('new_path after append = ', new_path)
-                    # load new path array into queue to be searched
+                    # load PATH with neighbor added to the search queue
                     q.enqueue(new_path)
-                    # print('************************************')
         return None
 
     def dfs(self, starting_vertex, destination_vertex):
