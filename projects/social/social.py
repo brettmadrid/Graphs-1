@@ -1,11 +1,11 @@
 import random
-
+import time
 
 class Queue:
     def __init__(self):
         self.queue = []
 
-    def enqueue(self, vaue):
+    def enqueue(self, value):
         self.queue.append(value)
 
     def dequeue(self):
@@ -85,7 +85,7 @@ class SocialGraph:
 
         # shuffle the list
         random.shuffle(possible_friendships)
-        
+
         print(possible_friendships)
 
         # then grab the first N elements from the list.
@@ -104,16 +104,27 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        q = Queue()
+        q.enqueue([user_id])
+        while q.size() > 0:
+            path = q.dequeue()
+            newuser_id = path[-1]
+            if newuser_id not in visited:
+                visited[newuser_id] = path
+                for friend in self.friendships[newuser_id]:
+                    if friend not in visited:
+                        new_path = list(path)
+                        new_path.append(friend)
+                        q.enqueue(new_path)
+
         return visited
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
-    print("-----")
-    print(sg.users)
-    print("-----")
-    print(sg.friendships)
-    # connections = sg.get_all_social_paths(1)
-    # print(connections)
+    start_time = time.time()
+    sg.populate_graph(1000, 5)
+    end_time = time.time()
+    print(f'runtime: {end_time - start_time} seconds')
+    connections = sg.get_all_social_paths(1)
+    print(connections)

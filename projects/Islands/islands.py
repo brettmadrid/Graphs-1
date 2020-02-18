@@ -107,4 +107,4 @@ def island_counter(matrix):  # should return 4
     return counter
 
 
-print(island_counter(islands))
+print(island_counter(big_islands))
