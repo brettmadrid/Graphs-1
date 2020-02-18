@@ -1,6 +1,7 @@
 import random
 import time
 
+
 class Queue:
     def __init__(self):
         self.queue = []
@@ -39,10 +40,13 @@ class SocialGraph:
         if user_id == friend_id:
             print("WARNING: You cannot be friends with yourself")
             return False
+        # if either are already in the friendship dictionary, the friendship already exists
+        # since the SocialGraph is an undirected graph
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
             print("WARNING: Friendship already exists")
             return False
         else:
+            # else add bi-directional relationship to the graph
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
             return True
@@ -51,8 +55,11 @@ class SocialGraph:
         """
         Create a new user with a sequential integer ID
         """
-        self.last_id += 1  # automatically increment the ID to assign the new user
+        # automatically increment the ID to assign the new user
+        self.last_id += 1
+        # add new user to dictionary key: id, value: name
         self.users[self.last_id] = User(name)
+        # add new user to friendships dictionary - key: id, value: empty set
         self.friendships[self.last_id] = set()
 
     def populate_graph(self, num_users, avg_friendships):
@@ -103,21 +110,33 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
+        # Note that this is a dictionary, not a set
+        visited = {}
+        # using a BST
         q = Queue()
+        # load user_id in an array to store path
         q.enqueue([user_id])
         while q.size() > 0:
             path = q.dequeue()
+            # get last user/friend added to the path
             newuser_id = path[-1]
+            # if friend has not already been searched
             if newuser_id not in visited:
+                # add newuser_id to visited dictionary
+                # key: user/friend id, value: path to that user/friend
                 visited[newuser_id] = path
+                # for each friend of newly added friend...
                 for friend in self.friendships[newuser_id]:
+                    # if that friend's friends have not already been visited
                     if friend not in visited:
+                        # make a copy of the existing path of friends
                         new_path = list(path)
+                        # add each new friend's friends to the path
                         new_path.append(friend)
+                        # update the search queue with the new path of friends
                         q.enqueue(new_path)
 
-        return visited
+        return visited # will return dictionary of all friends that have been visited
 
 
 if __name__ == '__main__':
