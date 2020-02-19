@@ -135,8 +135,8 @@ class SocialGraph:
                         new_path.append(friend)
                         # update the search queue with the new path of friends
                         q.enqueue(new_path)
-
-        return visited # will return dictionary of all friends that have been visited
+        # will return dictionary of all friends that have been visited
+        return visited
 
 
 if __name__ == '__main__':
